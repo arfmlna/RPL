@@ -4,14 +4,6 @@ import { revalidatePath } from "next/cache";
 import fs from "fs/promises";
 import { Update } from "@/lib/update";
 
-export const config = {
-  api: {
-    bodyParser: {
-      sizeLimit: '10mb',
-    },
-    extrnalResolver: true
-  }
-}
 
 export async function POST(req) {
   
