@@ -1,28 +1,43 @@
-'use client'
-import { useState } from 'react';
-import { Document, Page
-, pdfjs } from 'react-pdf';
+import { useState, useEffect } from 'react';
+import { getDocument, GlobalWorkerOptions } from 'pdfjs-dist';
 
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-    'pdfjs-dist/build/pdf.worker.min.mjs',
-    import.meta.url,
-).toString();
+const pdfjsWorker = import('pdfjs-dist/build/pdf.worker.entry.js');
 
-function PDFCover({ url }) {
-  const [numPages, setNumPages] = useState(null);
+GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
-  function onDocumentLoadSuccess({ numPages }) {
-    setNumPages(numPages);
-  }
+export default function Cover({ url }) {
+  const [coverImage, setCoverImage] = useState(null);
+
+  useEffect(() => {
+    async function fetchCover() {
+      if (!url) return;
+
+      try {
+        const pdf = await getDocument(url).promise;
+        const page = await pdf.getPage(1);
+        const viewport = page.getViewport({ scale: 1 });
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+        await page.render({ canvasContext: context, viewport }).promise;
+        const imageData = canvas.toDataURL();
+        setCoverImage(imageData);
+      } catch (error) {
+        console.error('Error fetching PDF cover:', error);
+      }
+    }
+
+    fetchCover();
+  }, [url]);
 
   return (
-    <Document
-        file={url}
-        onLoadSuccess={onDocumentLoadSuccess}
-    >
-      <Page pageNumber={1} width={180} height={180} renderMode='canvas'/>
-    </Document>
+    <div>
+      {coverImage ? (
+        <img src={coverImage} alt="PDF Cover" />
+      ) : (
+        <p>Loading cover...</p>
+      )}
+    </div>
   );
 }
-
-export default PDFCover;

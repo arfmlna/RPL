@@ -1,12 +1,10 @@
 'use client'
-import Image from "next/image";
-import BKI from "../../public/next.svg"
+import Cover from "@/components/files/pdfCover/pdfcover";
 import RootLayout from "./rootLayout";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import PDFCover from "@/components/files/pdfCover/pdfcover";
-import 'react-pdf/dist/Page/TextLayer.css';
-import 'react-pdf/dist/esm/Page/AnnotationLayer.css'
+
+
 
 export default function Home() {
   const [data, setData] = useState([])
@@ -16,9 +14,8 @@ export default function Home() {
     const data = await response.json()
     setData(data)
   }
-  useEffect(() => {
-    getData()
-  }, [])
+  
+  getData()
 
   return (
     <RootLayout>
@@ -30,7 +27,7 @@ export default function Home() {
               <Link key={i} href={`/${i}`} className="flip-card w-52 h-72 sm:w-52 md:w-52 lg:w-56 sm:h-72 md:h-80 lg:h-96">
                 <div className="flip-card-inner">
                   <div className="flip-card-front bg-red-500 rounded-lg flex items-center justify-center p-5">
-                  <PDFCover url={data.file} alt={'cover'} />
+                    <Cover url={data.file} />
                   </div>
                   <div className="flip-card-back bg-blue-500 rounded-lg flex flex-col items-center justify-center p-5">
                     <h1 className="text-white text-md font-bold">{data.title}</h1> 
