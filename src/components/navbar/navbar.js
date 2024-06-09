@@ -5,6 +5,7 @@ import urlImage from '@/app/favicon.ico'
 import Link from 'next/link'
 import { sb } from '@/lib/supabase'
 import { useRouter } from 'next/navigation'
+import { info } from '../alert/succes'
 
 export default function Navbar() {
   const router = useRouter()
@@ -29,8 +30,9 @@ export default function Navbar() {
 
   async function Logout(){
     const { error } = await sb.auth.signOut()
+    info('Logout', 'anda logout dari website', 'success', 'Logout')
     if (!error) {
-      router.reload()
+      router.refresh()
     }
     return error
   }
