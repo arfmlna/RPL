@@ -26,7 +26,7 @@ export default function Upload() {
       });
       if (response.ok) {
         succes('upload', 'upload berhasil', 'success', 'yes')
-        // router.push('/')
+        router.push('/')
       } else {
         fail('upload', 'upload gagal', 'error', 'no')
       }

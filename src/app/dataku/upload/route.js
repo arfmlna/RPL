@@ -14,14 +14,14 @@ export async function POST(req) {
     const genre = formData.getAll('genre')
     const jenis = formData.get('jenis')
     const file = formData.get("file");
-    // const arrayBuffer = await file.arrayBuffer();
-    // const buffer = new Uint8Array(arrayBuffer);
-    // await fs.writeFile(`./public/uploads/pdf/${file.name}`, buffer);
-    // revalidatePath("/");
-    // const { error } = await sb.from('contents').insert({ id: v4(), author: username, title: title, desc: desc, genre: genre, jenis: jenis, file: file.name })
-    // if (error) {
-    //   return NextResponse.json({ status: "fail", error });
-    // }
+    const arrayBuffer = await file.arrayBuffer();
+    const buffer = new Uint8Array(arrayBuffer);
+    await fs.writeFile(`./public/uploads/pdf/${file.name}`, buffer);
+    revalidatePath("/");
+    const { error } = await sb.from('contents').insert({ id: v4(), author: username, title: title, desc: desc, genre: genre, jenis: jenis, file: file.name })
+    if (error) {
+      return NextResponse.json({ status: "fail", error });
+    }
     return NextResponse.json({ status: 'success' });
   } catch (e) {
     console.error(e);
