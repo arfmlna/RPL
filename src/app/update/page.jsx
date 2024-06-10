@@ -6,10 +6,11 @@ import React from 'react'
 export default function Upload() {
   const router = useRouter()
   async function upload(form){
-    const file = form.get('file')
-    const formData = new FormData();
-    formData.append("file", file);
-    const response = await fetch("/dataku/update", {
+    try {
+      const file = form.get('file')
+      const formData = new FormData();
+      formData.append("file", file);
+      const response = await fetch("/dataku/update", {
       method: "POST",
       body: formData,
       headers: {
@@ -17,10 +18,15 @@ export default function Upload() {
       },
     });
     if (response.ok) {
-      succes('upload', 'upload berhasil', 'success', 'yes')
+      console.log('upload berhasil')
+      // succes('upload', 'upload berhasil', 'success', 'yes')
       // router.push('/')
     } else {
-      fail('upload', 'upload gagal', 'error', 'no')
+      // fail('upload', 'upload gagal', 'error', 'no')
+      console.log('upload gagal')
+    }
+    } catch (error) {
+      console.log(error)
     }
   }
 

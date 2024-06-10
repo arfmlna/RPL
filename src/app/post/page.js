@@ -1,29 +1,38 @@
 'use client'
 import Cover from "@/components/files/pdfCover/pdfcover";
-import RootLayout from "./rootLayout";
+import RootLayout from "../rootLayout";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { sb } from "@/lib/supabase";
 
 
 
 export default function Home() {
   const [data, setData] = useState([])
+  const [user, setUser] = useState()
+
+async function getUser(){
+    const { data } = await sb.auth.getSession()
+    setUser(data.session.user.user_metadata.username)
+}
 
   async function getData(){
-    const response = await fetch("/dataku/book")
-    const data = await response.json()
+    const { data, error } = await sb.from('contents').select().eq('author', user)
+    if (error) throw error
     setData(data)
   }
   
   useEffect(() => {
-    getData()
+      getUser()
+      getData()
   })
 
   return (
     <RootLayout>
     <main className="flex min-h-screen">
       <div className="w-full p-5 m-10 mt-28">
-        <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 sm:gap-8 md:gap-10 lg:gap-x-14 justify-items-center">
+        <Link href="../upload" className="p-2 rounded-md mb-10 bg-slate-100">upload</Link>
+        <div className="w-full mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 sm:gap-8 md:gap-10 lg:gap-x-14 justify-items-center">
           { data.map((data, i) => {
             return(
               <Link key={i} href={`/book/${data.id}`} className="flip-card w-52 h-72 sm:w-52 md:w-52 lg:w-56 sm:h-72 md:h-80 lg:h-96">
