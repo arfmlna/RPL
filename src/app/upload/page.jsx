@@ -1,56 +1,40 @@
 'use client'
-import React from 'react'
-import { sb } from '@/lib/supabase'
-import { fail, succes } from '@/components/alert/succes'
-import { useRouter } from 'next/navigation';
-
+import React, { useEffect, useState } from 'react'
+import { uploadFile } from '@/lib/insert';
+import { sb } from '@/lib/supabase';
 
 export default function Upload() {
-  const router = useRouter()
-    async function getData(form) {
-      const { data } = await sb.auth.getSession()
-      const username = data.session.user.user_metadata.username
-      const title = form.get('title')
-      const desc = form.get('desc')
-      const genre = form.getAll('genre')
-      const jenis = form.get('jenis')
-      const file = form.get('file')
-      const formData = new FormData();
-      formData.append("username", username);
-      formData.append("title", title);
-      formData.append("desc", desc);
-      formData.append("genre", genre);
-      formData.append("jenis", jenis);
-      formData.append("file", file);
-      const response = await fetch("/dataku/upload", {
-        method: "POST",
-        body: formData,
-        headers: {
-          "Content-Type": "application/pdf", 
-        },
-      });
-      if (response.ok) {
-        succes('upload', 'upload berhasil', 'success', 'yes')
-        // router.push('/')
-      } else {
-        fail('upload', 'upload gagal', 'error', 'no')
-      }
-      }
+  const [username, setUsername] = useState()
+  async function session(){
+    const { data, error } = await sb.auth.getSession()
+    if (error) throw error
+    if (data.session) {
+      setUsername(data.session.user.user_metadata.username)
+    }
+  }
+
+  useEffect(() => {
+    session()
+  },[session])
+
   return (
-    <form action={getData} className='grid place-items-center grid-cols-1 gap-10 mx-auto my-10'>
-    <div className='bg-slate-300 w-80 md:w-96 lg:w-full p-4 rounded-lg shadow-lg'>
+    <form action={uploadFile} className='grid place-items-center grid-cols-1 gap-10 mx-auto my-10'>
+    <div className='bg-slate-300 w-80 md:w-96 lg:w-[720px] p-4 rounded-lg shadow-lg'>
       <h1 className='text-center font-extrabold text-4xl py-5'>Upload</h1>
+      <div className="hidden">
+        <input type="text" name="username" value={username}/>
+      </div>
       <div className='mb-7 flex flex-col gap-1'>
-        <label>Title</label>
+        <label id="title">Title</label>
         <input className='p-1 rounded-md' type="text" name='title' placeholder="Title" />
       </div>
       <div className='mb-7 flex flex-col gap-1'>
-        <label>Deskripsi</label>
+        <label id='desc'>Deskripsi</label>
         <textarea className='p-1 rounded-md h-20' type="text" name='desc' placeholder="Deskripsi"></textarea>
       </div>
       <div className='mb-7 flex flex-col gap-1'>
-        <label>Jenis</label>
-        <select name="jenis" id="genre" className='p-1 rounded-md'>
+        <label id='jenis'>Jenis</label>
+        <select name="jenis" className='p-1 rounded-md'>
           <option value="novel">Novel</option>
           <option value="komik">Komik</option>
           <option value="fiksi">Fiksi</option>
@@ -58,32 +42,32 @@ export default function Upload() {
         </select>
       </div>
       <div className='mb-7 flex flex-col gap-1'>
-        <label>Genre</label>
+        <label id='genre'>Genre</label>
         <div className="p-5 rounded-md bg-white">
           <div className="py-1 grid grid-cols-2 justify-start">
-            <label className=''>Action</label>
-            <input type="checkbox" className='' name="genre" id="genre" value="action" placeholder='action' />
+            <p>Action</p>
+            <input type="checkbox" className='' name="genre" value="action" placeholder='action' />
           </div>
           <div className="py-1 grid grid-cols-2 justify-start">
-            <label className=''>Fantasy</label>
-            <input type="checkbox" className='' name="genre" id="genre" value="fantasy" placeholder='fantasy' />
+            <p>Fantasy</p>
+            <input type="checkbox" className='' name="genre" value="fantasy" placeholder='fantasy' />
           </div>
           <div className="py-1 grid grid-cols-2 justify-start">
-            <label className=''>Drama</label>
-            <input type="checkbox" className='' name="genre" id="genre" value="drama" placeholder='drama' />
+            <p>Drama</p>
+            <input type="checkbox" className='' name="genre" value="drama" placeholder='drama' />
           </div>
           <div className="py-1 grid grid-cols-2 justify-start">
-            <label className=''>Horror</label>
-            <input type="checkbox" className='' name="genre" id="genre" value="horror" placeholder='horror' />
+            <p>Horror</p>
+            <input type="checkbox" className='' name="genre" value="horror" placeholder='horror' />
           </div>
           <div className="py-1 grid grid-cols-2 justify-start">
-            <label className=''>Romance</label>
-            <input type="checkbox" className='' name="genre" id="genre" value="romance" placeholder='romance' />
+            <p>Romance</p>
+            <input type="checkbox" className='' name="genre" value="romance" placeholder='romance' />
           </div>
         </div>
       </div>
       <div className='mb-7 flex flex-col gap-1'>
-        <label>File</label>
+        <label id='file'>File</label>
         <input className='p-1 rounded-md' type="file" name='file' placeholder="insert file..." />
       </div>
       <div className='mb-1 flex flex-col gap-1'>
