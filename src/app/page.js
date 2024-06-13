@@ -26,7 +26,7 @@ export default function Home() {
         <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 sm:gap-8 md:gap-10 lg:gap-x-14 justify-items-center">
           { data.map((data, i) => {
             return(
-              <Link key={i} href={`/book/${data.id}`} className="flip-card w-52 h-72 sm:w-52 md:w-52 lg:w-56 sm:h-72 md:h-80 lg:h-96">
+              <Link key={i} href={`/book/${data.id}`} className="flip-card w-52 h-72 sm:w-52 md:w-52 lg:w-56 sm:h-72 md:h-80 lg:h-80">
                 <div className="flip-card-inner">
                   <div className="flip-card-front bg-red-500 rounded-lg flex items-center justify-center p-5">
                     <Cover url={data.file} />
@@ -35,7 +35,7 @@ export default function Home() {
                     <h1 className="text-white text-md font-bold">{data.title}</h1> 
                     <p className="text-white text-[12px] font-bold">{data.author}</p> 
                     <p className="text-white text-[10px] font-bold">{data.desc}</p>
-                    <p className="text-white text-[12px] font-bold">{data.genre}</p>
+                    <p className="text-white text-[12px] font-bold">{[data.genre].join(', ')}</p>
                   </div>
                 </div>
               </Link>

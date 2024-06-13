@@ -45,16 +45,18 @@ export default function PDFViewer({ url }) {
     }
   };
   return (
-    <div className='absolute top-0 left-0 right-0 bottom-0 z-20 w-full grid grid-cols-1 place-items-center'>
-      <canvas className='w-full' ref={canvasRef} />
-      <div className='p-2 w-full flex flex-row place-items-center justify-center gap-2 rounded-sm bg-slate-300'>
-        <button className='p-1 bg-white rounded-md' onClick={handlePrevPage} disabled={currentPage === 1}>
+    <div className=''>
+      <div className='mx-0 sm:mx-0 md:mx-48 lg:mx-48'>
+        <canvas className='w-full' ref={canvasRef} />
+      </div>
+      <div className='py-3 px-2 w-full flex flex-row justify-between gap-2 rounded-sm bg-slate-300'>
+        <button className='bg-white p-2 rounded-md' onClick={handlePrevPage} disabled={currentPage === 1}>
           Previous 
         </button>
-        <span className='mx-1'>
+        <span className='my-auto'>
           Page {currentPage} of {numPages}
         </span>
-        <button className='p-1 bg-white rounded-md' onClick={handleNextPage} disabled={currentPage === numPages}>
+        <button className='bg-white p-2 rounded-md' onClick={handleNextPage} disabled={currentPage === numPages}>
           Next
         </button>
       </div>

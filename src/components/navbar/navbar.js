@@ -1,7 +1,7 @@
 'use client'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
-import urlImage from '@/app/favicon.ico'
+import urlImage from '../../../public/Vektor-Logo.svg'
 import Link from 'next/link'
 import { sb } from '@/lib/supabase'
 import { useRouter } from 'next/navigation'
@@ -53,8 +53,8 @@ export default function Navbar() {
     <>
         <nav className="fixed z-10 left-0 right-0 navbar flex py-5 backdrop-blur-3xl px-5 opacity-80 bg-[#88AB8E] text-gray-100">
             <div className="nav-identity flex flex-row ml-3">
-                <Image className='mr-2 w-5 h-5' src={urlImage} alt='icon' />
-                <h3>Kelompok 1</h3>
+                <Image className='mr-2 w-7 h-7' src={urlImage} alt='icon' />
+                <h3><Link href="/">Kelompok 1</Link></h3>
             </div>
             <div className="mx-auto"></div>
             <ul className="hidden sm:hidden md:flex lg:flex xl:flex 2xl:flex flex-row gap-2">

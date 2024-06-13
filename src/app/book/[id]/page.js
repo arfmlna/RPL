@@ -24,33 +24,37 @@ export default function PageDetail({ params }) {
   return (
     <>
     <Navbar/>
-    <div className="flex min-h-screen">
-      <div className="w-full p-5 m-10 mt-28">
         { modal == false ? 
+    <div className="flex min-h-screen justify-center">
+      <div className="p-5 m-10 mt-28">
         <div className='p-5 bg-slate-200'>
           { data.map((data, i) => {
             return(
               <div key={i}>
-                <p>{data.id}</p>
-                <p>{data.created_at}</p>
-                <p>{data.title}</p>
-                <p>{data.author}</p>
-                <p>{data.desc}</p>
-                <p>{data.genre}</p>
-                <p>{data.file}</p>
-                <button onClick={handleModal}>open</button>
+                <p className='py-3 px-2 rounded-md bg-white mb-3'>{data.created_at}</p>
+                <p className='py-3 px-2 rounded-md bg-white mb-3'>{data.title}</p>
+                <p className='py-3 px-2 rounded-md bg-white mb-3'>{data.author}</p>
+                <p className='py-3 px-2 rounded-md bg-white mb-3'>{data.desc}</p>
+                <p className='py-3 px-2 rounded-md bg-white mb-3'>
+                  <span className='py-2 px-1 bg-cyan-400 rounded-md'>{
+                    [data.genre].join(', ')
+                  }</span>
+                </p>
+                <button className='px-2 py-1 rounded-md bg-white' onClick={handleModal}>open</button>
               </div>
             )
           }) }
         </div>
-        : 
-        <div className='w-full h-full'>
-          <PDFViewer url={file} />
-          <button onClick={handleModal}>close</button>
-        </div>
-        }
       </div>
     </div>
+      : 
+    <div className='pt-[4.5rem] rounded-md pb-1 bg-black'>
+        <PDFViewer url={file} />
+        <div className='my-3 flex justify-center'>
+          <button className='px-2 py-1 rounded-md bg-cyan-400' onClick={handleModal}>close</button>
+        </div>
+    </div>
+        }
     <Footer/>
     </>
   )

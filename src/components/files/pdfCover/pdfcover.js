@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { getDocument, GlobalWorkerOptions } from 'pdfjs-dist';
+import Image from 'next/image';
+// import worker from 'pdfjs-dist/build/pdf.worker.entry.js';
 
 const pdfjsWorker = import('pdfjs-dist/build/pdf.worker.entry.js');
 
@@ -32,11 +34,21 @@ export default function Cover({ url }) {
   }, [url]);
 
   return (
-    <div>
+    <div style={{ width: '100%', height: 'auto' }}>
       {coverImage ? (
-        <img src={coverImage} alt="PDF Cover" />
+        <Image 
+        src={coverImage} 
+        alt="PDF Cover"
+        quality={80}
+        loading="lazy"
+        width={0}
+        height={0}
+        style={{ width: '100%', height: 'auto' }}
+        />
       ) : (
-        <p>Loading cover...</p>
+        <p className='w-full'>
+          Loading...
+        </p>
       )}
     </div>
   );

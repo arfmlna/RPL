@@ -17,6 +17,7 @@
     "react": "^18",
     "react-dom": "^18",
     "sweetalert2": "^11.11.1",
+    "typeit-react": "^2.7.1",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
