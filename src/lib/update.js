@@ -26,8 +26,8 @@ export async function Update(formData){
     if (error) {
         console.log(error)
     }
-    await fs.writeFile(`./public/uploads/pdf/${file.name}`, buffer);
     await fs.unlink(`./public/${oldFile}`)
+    await fs.writeFile(`./public/uploads/pdf/${file.name}`, buffer);
     revalidatePath("/");
     redirect('/post')
 }

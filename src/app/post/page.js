@@ -4,6 +4,7 @@ import RootLayout from "../rootLayout";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { sb } from "@/lib/supabase";
+import { deleteData } from "@/lib/delete";
 
 
 
@@ -20,11 +21,6 @@ async function getUser(){
     const { data, error } = await sb.from('contents').select().eq('author', user)
     if (error) throw error
     setData(data)
-  }
-  
-  async function deleteData(id){
-    const { error } = await sb.from('contents').delete().eq('id', id)
-    if (error) throw error
   }
 
   useEffect(() => {
