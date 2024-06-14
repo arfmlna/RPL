@@ -22,7 +22,7 @@ export default function Upload() {
     <div className='bg-slate-300 w-80 md:w-96 lg:w-[720px] p-4 rounded-lg shadow-lg'>
       <h1 className='text-center font-extrabold text-4xl py-5'>Upload</h1>
       <div className="hidden">
-        <input type="text" name="username" value={username}/>
+        <input type="text" name="username" defaultValue={username}/>
       </div>
       <div className='mb-7 flex flex-col gap-1'>
         <label id="title">Title</label>
